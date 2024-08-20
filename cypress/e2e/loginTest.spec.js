@@ -23,6 +23,7 @@ describe("login", () => {
       expect(text).to.be.equal("Login successful!");
     });
   });
+
   it("testing login redirection to dashboard page", () => {
     cy.visit("/login/login.html");
     cy.get("#login-email").type(Email);
@@ -30,5 +31,23 @@ describe("login", () => {
     cy.get("button").click();
     cy.url().should("not.include", "/login.html");
     cy.url().should("include", "/dashboard.html");
+  });
+
+  it("testing mandatory fields for login page", () => {
+    cy.visit("/login/login.html");
+    cy.get("#login-email").should("have.attr", "required");
+    cy.get("#login-password").should("have.attr", "required");
+  });
+  it("should not submit login if mandatory fields are empty", () => {
+    cy.visit("/login/login.html");
+    cy.get("button").click();
+    cy.get("#login-email:invalid").should("exist");
+    cy.get("#login-password:invalid").should("exist");
+  });
+  it("testing if the link button redirects back to signup page", () => {
+    cy.visit("/login/login.html");
+    cy.contains("Sign Up").click();
+    cy.url().should("not.include", "/login.html");
+    cy.url().should("include", "/signup.html");
   });
 });
