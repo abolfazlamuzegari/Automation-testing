@@ -43,4 +43,16 @@ describe("login", () => {
     cy.url().should("not.include", "/login.html");
     cy.url().should("include", "/signup.html");
   });
+
+  it("testing the failed login", () => {
+    cy.visit("/login/login.html");
+    cy.get("#login-email").type("notTest@test.com");
+    cy.get("#login-password").type("not1");
+    cy.get("#login-form").submit();
+    cy.on("window:alert", (text) => {
+      expect(text).to.be.equal(
+        "Login failed. Please check your email and password."
+      );
+    });
+  });
 });
