@@ -22,13 +22,6 @@ describe("login", () => {
     cy.on("window:alert", (text) => {
       expect(text).to.be.equal("Login successful!");
     });
-  });
-
-  it("testing login redirection to dashboard page", () => {
-    cy.visit("/login/login.html");
-    cy.get("#login-email").type(Email);
-    cy.get("#login-password").type(password);
-    cy.get("button").click();
     cy.url().should("not.include", "/login.html");
     cy.url().should("include", "/dashboard.html");
   });
