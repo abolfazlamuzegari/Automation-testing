@@ -7,7 +7,20 @@ import {
   birthdate,
   password,
 } from "../../config";
-
+function today() {
+  const currentDate = new Date();
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  };
+  const todayFormat = currentDate.toLocaleString("en-US", options);
+  return todayFormat;
+}
 describe("login", () => {
   beforeEach(() => {
     cy.signUp(Email, firstName, lastName, phoneNumber, birthdate, password);
@@ -25,7 +38,9 @@ describe("login", () => {
     cy.url().should("not.include", "/login.html");
     cy.url().should("include", "/dashboard.html");
 
-    cy.get("p").find("#user-name").should("contain", firstName);
+    cy.get("p").find("#user-name").should("have.property", firstName);
+
+    cy.get("#current-time").should("have.text", today());
   });
 
   it("testing mandatory fields for login page", () => {
