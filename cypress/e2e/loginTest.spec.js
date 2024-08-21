@@ -53,4 +53,13 @@ describe("login", () => {
       );
     });
   });
+  it("signing out from the dashboard page testing", () => {
+    cy.get("#login-email").type(Email);
+    cy.get("#login-password").type(password);
+    cy.get("#login-form").submit();
+    cy.get("#sign-out-button").click();
+
+    cy.url().should("not.include", "/dashboard.html");
+    cy.url().should("include", "/login.html");
+  });
 });
