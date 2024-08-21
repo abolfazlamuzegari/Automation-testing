@@ -34,7 +34,6 @@ Cypress.Commands.add(
         cy.get("#firstname").type(firstName);
         cy.get("#lastname").type(lastName);
         cy.get("#birthdate").type(birthdate);
-        cy.get("#lastname").type(lastName);
         cy.get("#phone").type(phoneNumber);
         cy.get("#password").type(password);
         cy.get("#password-confirm").type(password);
