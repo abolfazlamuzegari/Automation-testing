@@ -14,15 +14,18 @@ describe("login", () => {
     cy.visit("/login/login.html");
   });
 
-  it("testing the login pop up alert", () => {
+  it("testing the login pop up alert, redirection link and messages in dashboard", () => {
     cy.get("#login-email").type(Email);
     cy.get("#login-password").type(password);
     cy.get("#login-form").submit();
     cy.on("window:alert", (text) => {
       expect(text).to.be.equal("Login successful!");
     });
+
     cy.url().should("not.include", "/login.html");
     cy.url().should("include", "/dashboard.html");
+
+    cy.get("p").find("#user-name").should("contain", firstName);
   });
 
   it("testing mandatory fields for login page", () => {
