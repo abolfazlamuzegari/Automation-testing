@@ -9,6 +9,7 @@ describe("signup page test suite", () => {
     //visiting the signup page
 
     fillingTheSignupForm();
+    cy.get("#signup-form").submit();
     cy.on("window:alert", (text) => {
       expect(text).to.equal("Sign up successful!");
     });
@@ -21,6 +22,7 @@ describe("signup page test suite", () => {
 
     //fill the form
     fillingTheSignupForm();
+    cy.get("#signup-form").submit();
     // testing the elements of signup page
     cy.get("h1").should("not.contain", "Sign Up");
     cy.get("button").should("not.contain", "Sign Up");
@@ -59,5 +61,16 @@ describe("signup page test suite", () => {
       .then((password) => {
         cy.get("#password-confirm").invoke("val").should("equal", password);
       });
+  });
+
+  it("testing if the password and password-confirm are not equal", () => {
+    fillingTheSignupForm();
+    cy.get("#password-confirm")
+      .clear()
+      .type(password + 1);
+    cy.get("#signup-form").submit();
+    cy.on("window:alert", (text) => {
+      expect(text).to.equal("Passwords do not match!");
+    });
   });
 });
